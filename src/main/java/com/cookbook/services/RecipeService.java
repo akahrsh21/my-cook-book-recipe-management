@@ -18,10 +18,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 public class RecipeService implements ServiceOperations {
@@ -53,8 +50,10 @@ public class RecipeService implements ServiceOperations {
                 recipeRepository.insert(recipeRecord);
 
             } catch (IllegalArgumentException e) {
+                logger.debug("Please Check the input record: " + e.getMessage());
                 throw new ServiceException("Please Check the input record: " + e.getMessage());
             } catch (Exception e) {
+                logger.debug("Unhandled Exception in RECIPESERVICE persistListOfRecipe(): " + e.getMessage());
                 throw new ServiceException("Unhandled Exception in RECIPESERVICE persistListOfRecipe(): " + e.getMessage());
             }
         }
@@ -109,9 +108,11 @@ public class RecipeService implements ServiceOperations {
             logger.info("Retrieving the data from DataBase");
             serviceResponseList = recipeRepository.findAll();
         } catch (Exception exception) {
+            logger.debug("Unhandled Exception: " + exception.getMessage());
             throw new ServiceException("Exception!");
         }
         if (serviceResponseList.isEmpty()) {
+            logger.debug("No Records found");
             throw new ServiceException("No Records found");
         }
         logger.info("returning the Recipe data from DataBase");
@@ -132,8 +133,10 @@ public class RecipeService implements ServiceOperations {
             logger.info("Retrieving the Recipe data from DataBase based on the Author");
             responseList = recipeRepository.findByRecipeAuthor(recipeAuthor);
         } catch (IllegalArgumentException e) {
+            logger.debug(("Validation Failed: " + e.getMessage()));
             throw new ServiceException("Please validate the input record: " + e.getMessage());
         } catch (Exception e) {
+            logger.debug("Unhandled Exception in RECIPESERVICE findRecipeByOwner(): " + e.getMessage());
             throw new ServiceException("Unhandled Exception in RECIPESERVICE findRecipeByOwner(): " + e.getMessage());
         }
 
@@ -148,17 +151,32 @@ public class RecipeService implements ServiceOperations {
     @Override
     public RecipeControllerResponse deleteRecipeByID(String recipeID) {
         Recipe deletedRecipe = null;
+        Optional<Recipe> recipeRecord;
         if (recipeID.trim().isEmpty()) {
             throw new ServiceException("The delete ID cannot be empty!");
         }
+
+        try {
+            recipeRecord = recipeRepository.findById(recipeID);
+        } catch (Exception e) {
+            logger.debug("Unhandled Exception in RECIPESERVICE deleteRecipeByID(): " + e.getMessage());
+            throw new ServiceException("Unhandled Exception in RECIPESERVICE deleteRecipeByID(): " + e.getMessage());
+        }
+
+        if (recipeRecord.isEmpty()) {
+            throw new ServiceException("No Recipes found for the given ID");
+        }
+
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(recipeID));
         try {
             logger.info("Deleting the Recipe Record");
             deletedRecipe = mongoTemplate.findAndRemove(query, Recipe.class);
         } catch (IllegalArgumentException e) {
+            logger.debug(("Validation Failed: " + e.getMessage()));
             throw new ServiceException("Please validate the delete parameters: " + e.getMessage());
         } catch (Exception e) {
+            logger.debug("Unhandled Exception in RECIPESERVICE deleteRecipeByID(): " + e.getMessage());
             throw new ServiceException("Unhandled Exception in RECIPESERVICE deleteRecipeByID(): " + e.getMessage());
         }
 
@@ -173,7 +191,18 @@ public class RecipeService implements ServiceOperations {
 
     @Override
     public Recipe updateRecipeCollection(String recipeID, Recipe recipe) {
-
+        Optional<Recipe> recipeRecord;
+        if (recipeID.trim().isEmpty()) {
+            throw new ServiceException("The search criteria cannot be empty!");
+        }
+        try {
+            recipeRecord = recipeRepository.findById(recipeID);
+        } catch (Exception e) {
+            throw new ServiceException("Unhandled Exception in RECIPESERVICE updateRecipeCollection(): " + e.getMessage());
+        }
+        if (recipeRecord.isEmpty()) {
+            throw new ServiceException("No Recipes found for the given ID");
+        }
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(recipeID));
         Update update = buildUpdateParameters(recipe);
@@ -181,8 +210,10 @@ public class RecipeService implements ServiceOperations {
             logger.info("Updating the Recipe Data");
             return mongoTemplate.findAndModify(query, update, new FindAndModifyOptions().returnNew(true), Recipe.class);
         } catch (IllegalArgumentException e) {
+            logger.debug(("Validation Failed: " + e.getMessage()));
             throw new ServiceException("Please validate the input record: " + e.getMessage());
         } catch (Exception e) {
+            logger.debug("Unhandled Exception in RECIPESERVICE updateRecipeCollection(): " + e.getMessage());
             throw new ServiceException("Unhandled Exception in RECIPESERVICE updateRecipeCollection(): " + e.getMessage());
         }
 

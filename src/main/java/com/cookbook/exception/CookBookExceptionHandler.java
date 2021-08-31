@@ -1,5 +1,6 @@
 package com.cookbook.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,10 @@ public class CookBookExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<Object> handleExpiredJwtException(ExpiredJwtException expiredJwtException) {
+        ExceptionBody exceptionBody = new ExceptionBody("JWT Token Expired", expiredJwtException.getMessage());
+        return new ResponseEntity<>(exceptionBody, HttpStatus.BAD_REQUEST);
 
+    }
 }

@@ -13,8 +13,9 @@ public class CookBookRecipesApplication {
 		SpringApplication.run(CookBookRecipesApplication.class, args);
 	}
 
-	@Bean
+@Bean
 	public PasswordEncoder passwordEncoder() {
 		return NoOpPasswordEncoder.getInstance();
+
 	}
 }
