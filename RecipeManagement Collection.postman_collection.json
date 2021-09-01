@@ -1,0 +1,263 @@
+{
+	"info": {
+		"_postman_id": "a3ae59c6-a22b-4cb3-a000-f7773d9ffcc7",
+		"name": "RecipeManagement Collection",
+		"description": "API Collection for various Recipe Management Endpoints.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET ALL RECIPES",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDUwNTY5OSwiaWF0IjoxNjMwNTA1Mzk5fQ.ypj5reNfZupnOTDH-lbe-AfM3QzP66hA4rt9c27G6tFYjvHdRRpLKs2FGIuxjXu2dPum8z9fOItE4KSLhVrOcQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/rest/v1/recipes/getAllRecipes/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"rest",
+						"v1",
+						"recipes",
+						"getAllRecipes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SAVE RECIPE",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDUwNTYzNCwiaWF0IjoxNjMwNTA1MzM0fQ.KyBJ22crTrqUuIcqo0GdL9NS9RS4cWSxzZiMbjCg6GLnPJvf3thcgNPj4pkUxUa0F1XaPUZP38cPE5kPVFvQ_g",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"recipeName\": \"Vegetable Soup\",\r\n    \"recipeAuthor\": \"akahrsh@gmail.com\",\r\n    \"veganRecipe\": true,\r\n    \"recipeSuitableServing\": 1 ,\r\n    \"recipeIngredients\": [\r\n\t\t\t\"Olive oil - 2 tsp\",            \r\n\t\t\t\"Chopped onion - 2 cups\",\r\n            \"Chopped carrot - 1 1/2 cups\",\r\n\t\t\t\"Chopped Celery - 1 1/2 cups\",\r\n            \"Tomato Paste - 2 tsp\",\r\n            \"Minced Garlic - 4 tsp\",\r\n\t\t\t\"Ground fennel seed - 3/4 tsp\",\r\n            \"ground black pepper - 1/2 tsp\",\r\n\t\t\t\"fine sea salt - As Required\",\r\n            \"stock or broth - 6 cups\",\r\n\t\t\t\"chopped potato - 2 cups\",\r\n            \"shredded cabbage - 4 Cups\",\r\n            \"bay leaves - 2\",\r\n\t\t\t\"frozen peas - 1 cup\",\r\n\t\t\t\"apple cider vinegar - 1/2 tsp\"            \r\n    ],\r\n    \"recipeInstructions\":    [\r\n           \r\n            \"Heat the oil in a stockpot pot or Dutch oven over medium heat. Add the onions; carrots; celery and the tomato paste. Cook; stirring often until the vegetables have softened and the onions are translucent; 8 to 10 minutes.\",\r\n            \"Add the garlic; fennel; black pepper; 1/2 teaspoon of salt and the red pepper flakes. Cook; while stirring; for one minute.\",\r\n            \"Pour in the canned tomatoes and their juices as well as the stock/broth.\",\r\n\t\t\t\"Add the potatoes; cabbage and the bay leaves. Raise the heat to medium-high and bring the soup to a boil. Partially cover the pot with a lid and then reduce the heat to maintain a low simmer.\",\r\n\t\t\t\"Simmer for 20 minutes or until the potatoes and other vegetables are tender. Add the frozen peas and cook for five more minutes.\",\r\n\t\t\t\"Remove the pot from the heat and remove the bay leaves. Stir in the cider vinegar (or lemon juice). Taste and season with more salt; pepper or vinegar. Serve.\"\r\n        ]\r\n    }\r\n\r\n\r\n\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/rest/v1/recipes/saveRecipe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"rest",
+						"v1",
+						"recipes",
+						"saveRecipe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET RECIPE BY AUTHOR",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDUwNTY5OSwiaWF0IjoxNjMwNTA1Mzk5fQ.ypj5reNfZupnOTDH-lbe-AfM3QzP66hA4rt9c27G6tFYjvHdRRpLKs2FGIuxjXu2dPum8z9fOItE4KSLhVrOcQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/rest/v1/recipes/getAllRecipesByAuthor/sai@test.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"rest",
+						"v1",
+						"recipes",
+						"getAllRecipesByAuthor",
+						"sai@test.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE RECIPE BY ID",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDUwNjQ0NCwiaWF0IjoxNjMwNTA2MTQ0fQ.9WYnR6_J0i-uBFwgikHFU2XSlTDBrpoSxsSTvSX2Q7brffpkUkuusRdq8FOC8AhhqyfSpA9AMozQgLeBLXYxlQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/rest/v1/recipes/deleteRecipe/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"rest",
+						"v1",
+						"recipes",
+						"deleteRecipe",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE RECIPE BY ID",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDUwNjYzNSwiaWF0IjoxNjMwNTA2MzM1fQ.HcTgZef209vKO77YpUXHl2CZo46o_uOlYFWw0Z85Gx1pJJ91EdiG0P42BId-AmydgktH2XmZbneyRSixPgEfig",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"recipeName\": \"Crispy Roasted Potatoes\",\r\n    \"recipeAuthor\": \"akahrsh@test.com\",\r\n    \"veganRecipe\": true,\r\n    \"recipeSuitableServing\": 3 ,\r\n    \"recipeIngredients\": [\r\n\t\t\t\"Yukon Gold or baby potatoes - 1 1/2 pounds\",            \r\n\t\t\t\"neutral oil like grape seed oil or vegetable oil or avocado oil - 2 cups - 1 1/2 tsp\",\r\n            \"fine sea salt - 3/4 tsp\",\r\n\t\t\t\"fresh ground black pepper - 1/2 tsp\",\r\n            \"smoked paprika - 1/2 tsp\",\r\n            \"Fresh herbs like chopped chives mint for serving - As Required\"\r\n\t\t        \r\n    ],\r\n    \"recipeInstructions\": [\r\n            \"Heat the oven to 425 degrees Fahrenheit and line a large baking sheet with parchment paper or a silicone baking mat.\",\r\n            \"Chop the potatoes into 1-inch chunks and then add to a medium bowl along with the oil salt  pepper and smoked paprika. Toss well and then tumble the seasoned potatoes onto the prepared baking sheet. Spread the potatoes out into one layer.\",\r\n            \"Roast the potatoes until golden brown on the outside and tender on the inside 25 to 35 minutes. After 20 minutes check the potatoes and use a flat spatula to stir them for the most even browning.\",\r\n\t\t\t\"Scatter fresh herbs over the warm potatoes and serve.\"\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/rest/v1/recipes/updateRecipe/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"rest",
+						"v1",
+						"recipes",
+						"updateRecipe",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SAVE RECIPE AS A LIST",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDUwNjQ0NCwiaWF0IjoxNjMwNTA2MTQ0fQ.9WYnR6_J0i-uBFwgikHFU2XSlTDBrpoSxsSTvSX2Q7brffpkUkuusRdq8FOC8AhhqyfSpA9AMozQgLeBLXYxlQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n{\r\n    \"recipeName\": \"Crispy Roasted Potatoes\",\r\n    \"recipeAuthor\": \"akahrsh@test.com\",\r\n    \"veganRecipe\": true,\r\n    \"recipeSuitableServing\": 4 ,\r\n    \"recipeIngredients\": [\r\n\t\t\t\"Yukon Gold or baby potatoes - 1 1/2 pounds\",            \r\n\t\t\t\"neutral oil like grape seed oil or vegetable oil or avocado oil - 2 cups - 1 1/2 tsp\",\r\n            \"fine sea salt - 3/4 tsp\",\r\n\t\t\t\"fresh ground black pepper - 1/2 tsp\",\r\n            \"smoked paprika - 1/2 tsp\",\r\n            \"Fresh herbs like chopped chives mint for serving - As Required\"\r\n\t\t        \r\n    ],\r\n    \"recipeInstructions\": [\r\n            \"Heat the oven to 425 degrees Fahrenheit and line a large baking sheet with parchment paper or a silicone baking mat.\",\r\n            \"Chop the potatoes into 1-inch chunks and then add to a medium bowl along with the oil salt  pepper and smoked paprika. Toss well and then tumble the seasoned potatoes onto the prepared baking sheet. Spread the potatoes out into one layer.\",\r\n            \"Roast the potatoes until golden brown on the outside and tender on the inside 25 to 35 minutes. After 20 minutes check the potatoes and use a flat spatula to stir them for the most even browning.\",\r\n\t\t\t\"Scatter fresh herbs over the warm potatoes and serve.\"\r\n        ]\r\n    }\r\n\r\n,\r\n\r\n{\r\n    \"recipeName\": \"Maryland Crab Cake\",\r\n    \"recipeAuthor\": \"test@gmail.com\",\r\n    \"veganRecipe\": false,\r\n    \"recipeSuitableServing\": 2 ,\r\n    \"recipeIngredients\": [\r\n\t\t\t\"jumbo lump or backfin lump crabmeat, fresh or pasteurized - 1 1 pound\",            \r\n\t\t\t\"crushed saltine crackers - 20\",\r\n            \"minced chives or parsley - 1 tsp\",\r\n\t\t\t\"mayonnaise - 1/4 tsp\",\r\n            \"large egg - 1\",\r\n            \"Dijon mustard - 1 tsp\",\r\n\t\t\t\"Worcestershire sauce - 1 tsp\",\r\n\t\t\t\"canola Oil - 1/4 cup\",\r\n\t\t\t\"butter - 1 tsp\"\r\n\t\t        \r\n    ],\r\n    \"recipeInstructions\": [\r\n            \"Drain the crabmeat if necessary and pick through it for any rogue shells. Toss the cracker crumbs herbs and crabmeat together using your fingers to gently break apart some of the lumps.\",\r\n            \"Whisk the mayonnaise egg mustard and Worcestershire sauce together then stir into the crab mixture. It will look somewhat loose. Cover with plastic wrap and refrigerate at least 1 hour.\",\r\n            \"Scoop the crab mixture into six 1/2-cup mounds and lightly pack into patties about 1 1/2 inches thick. Cook the crab cakes — our method for pan-searing and broiling are below.\",\r\n\t\t\t\"In a 12-inch nonstick or cast iron skillet heat the oil over medium heat. When the oil shimmers add the crab cakes to the pan. Cook until the underside of the cakes are dark golden brown 4 to 6 minutes.\",\r\n\t\t\t\"Carefully flip the cakes reduce the heat to medium-low and add the butter. Continue cooking until the second side is well browned 4 to 6 minutes.\",\r\n\t\t\t\"Position an oven rack 6 to 8 inches from the top of the oven. Turn broiler to high. In a 12-inch oven-safe skillet heat the oil over medium heat. When the oil shimmers add the crab cakes to the pan. Cook until the underside of the cakes are golden brown 3 to 5 minutes.\",\r\n\t\t\t\"Cut the butter into six pieces then add one to the top of each crab cake. Slide the pan under the broiler and cook until the tops are well browned 4 to 6 minutes.\"\r\n\t\t\r\n        ]\r\n    },\r\n\t{\r\n    \"recipeName\": \"Strawberry Smoothie\",\r\n    \"recipeAuthor\": \"mock@gmail.com\",\r\n    \"veganRecipe\": true,\r\n    \"recipeSuitableServing\": 2 ,\r\n    \"recipeIngredients\": [\r\n\t\t\t\"fresh or frozen strawberries - 1 cup\",            \r\n\t\t\t\"medium ripe banana or 1 cup banana slices - 1\",\r\n            \"peeled and quartered medium orange - Half\",\r\n\t\t\t\"dairy or non-dairy milk - 1 cup\"\r\n\t\t        \r\n    ],\r\n    \"recipeInstructions\": [\r\n           \"Add the strawberries; banana; orange; 3/4 cup of the milk and vanilla extract to a blender. If you plan to add any add optional ingredients to the blender.\",\r\n            \"Turn blender on and blend until creamy and smooth. If the smoothie is too thick add a bit more milk.\"\r\n\t\t\r\n\t\t\r\n        ]\r\n    }\r\n\t]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/rest/v1/recipes/saveRecipeList",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"rest",
+						"v1",
+						"recipes",
+						"saveRecipeList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AUTHENTICATE TO GET TOKEN",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"admin\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/rest/v1/recipes/authenticate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"rest",
+						"v1",
+						"recipes",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
