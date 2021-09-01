@@ -1,4 +1,4 @@
-package com.cookbook.security;
+package com.cookbook.config;
 
 import com.cookbook.exception.AuthDeniedResponse;
 import com.cookbook.filter.JWTFilter;
@@ -62,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     response.getWriter().write(new AuthDeniedResponse("ACCESS DENIED", LocalDateTime.now()).toString());
                 });
 
+
     }
 
     @Override
@@ -71,6 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/**",
                 "/configuration/security",
                 "/swagger-ui.html",
-                "/webjars/**");
+                "/webjars/**",
+                "/h2-console/**");
     }
 }

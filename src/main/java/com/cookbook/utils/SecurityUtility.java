@@ -18,7 +18,8 @@ public class SecurityUtility implements Serializable {
 
     private static final long serialVersionUID = 234234523523L;
 
-    public static final long TOKEN_VALIDITY = 300000;
+    @Value("${auth.token.expiry.milliseconds}")
+    private long TOKEN_VALIDITY;
 
     @Value("${auth.mySecretKey}")
     private String mySecretKey;

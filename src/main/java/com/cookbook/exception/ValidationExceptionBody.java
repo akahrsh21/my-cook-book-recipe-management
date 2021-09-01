@@ -1,4 +1,4 @@
-package com.cookbook.model;
+package com.cookbook.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RecipeInstructions {
-
-    private List<String> recipeInstructions;
+public class ValidationExceptionBody {
+    private String message;
+    private List<String> exceptionDetails;
 }

@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: recipeuser
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2.console.enabled: true
+
+auth:
+  mySecretKey: mysecretkeyforcookbookrecipemanagementapplication
+  token:
+    expiry:
+      milliseconds: 900000
+
+server:
+  port: 9090
+
+
+

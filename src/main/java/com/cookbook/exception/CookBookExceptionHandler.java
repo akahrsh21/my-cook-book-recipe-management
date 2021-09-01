@@ -12,6 +12,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class CookBookExceptionHandler extends ResponseEntityExceptionHandler {
@@ -19,7 +20,12 @@ public class CookBookExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        ExceptionBody exceptionBody = new ExceptionBody("Input validation failed", ex.getMessage());
+        ValidationExceptionBody exceptionBody = new ValidationExceptionBody("Input validation failed",
+                ex.getBindingResult().getFieldErrors()
+                        .stream()
+                        .map(x -> x.getDefaultMessage())
+                        .collect(Collectors.toList()));
+
         return new ResponseEntity<>(exceptionBody, HttpStatus.BAD_REQUEST);
     }
 
@@ -33,7 +39,7 @@ public class CookBookExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ServiceException.class)
     public ResponseEntity<Object> handlePersistFailureException(ServiceException persistFailureException) {
-        ExceptionBody exceptionBody = new ExceptionBody("Unable to persist the Data", persistFailureException.getMessage());
+        ExceptionBody exceptionBody = new ExceptionBody("SERVICE EXCEPTION", persistFailureException.getErrorMessage());
         return new ResponseEntity<>(exceptionBody, HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
@@ -52,4 +58,12 @@ public class CookBookExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionBody, HttpStatus.BAD_REQUEST);
 
     }
+
+    @ExceptionHandler(NoDataFoundException.class)
+    public ResponseEntity<Object> handleNoDataFoundException(NoDataFoundException noDataFoundException) {
+        ExceptionBody exceptionBody = new ExceptionBody("NO DATA FOUND FOR THE SEARCH PARAMETER", noDataFoundException.getErrorMessage());
+        return new ResponseEntity<>(exceptionBody, HttpStatus.NOT_FOUND);
+
+    }
+
 }

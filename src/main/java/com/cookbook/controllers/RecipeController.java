@@ -1,12 +1,13 @@
 package com.cookbook.controllers;
 
 
-import com.cookbook.exception.ServiceException;
+import com.cookbook.DTO.RecipeDTO;
+import com.cookbook.mapper.DTOMapper;
 import com.cookbook.model.AuthenticationRequest;
 import com.cookbook.model.AuthenticationResponse;
 import com.cookbook.model.Recipe;
 import com.cookbook.model.RecipeControllerResponse;
-import com.cookbook.recipeOperations.ServiceOperations;
+import com.cookbook.services.IRecipeService;
 import com.cookbook.services.LoadUserService;
 import com.cookbook.utils.SecurityUtility;
 import io.swagger.annotations.Api;
@@ -26,8 +27,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rest/v1/recipes/")
@@ -36,7 +37,12 @@ public class RecipeController {
     Logger logger = LoggerFactory.getLogger(RecipeController.class);
 
     @Autowired
-    ServiceOperations serviceOperations;
+    IRecipeService recipeService;
+
+
+    @Autowired
+    DTOMapper mapper;
+
     @Autowired
     private SecurityUtility securityUtility;
 
@@ -46,6 +52,7 @@ public class RecipeController {
     @Autowired
     private LoadUserService userService;
 
+
     @ApiOperation(value = "Save the Recipe created by the User to Backend")
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "BAD REQUEST"),
@@ -53,21 +60,12 @@ public class RecipeController {
             @ApiResponse(code = 500, message = "UNHANDLED EXCEPTION")
     })
     @PostMapping(value = "/saveRecipe", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> saveRecipe(@Valid @RequestBody Recipe recipe) {
-        RecipeControllerResponse serviceResponse = null;
-        try {
-            logger.info("Inside saveRecipe controller");
-            serviceResponse = serviceOperations.persistRecipeData(recipe);
 
-        } catch (ServiceException serviceException) {
-            return new ResponseEntity<>(new RecipeControllerResponse(RecipeControllerResponse.StatusCode.RECIPE_SAVE_STATUS_FAILURE, serviceException.getErrorMessage()), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> saveRecipe(@Valid @RequestBody RecipeDTO recipeDTO) {
 
-        } catch (Exception e) {
-            return new ResponseEntity<>(new RecipeControllerResponse(RecipeControllerResponse.StatusCode.RECIPE_SAVE_STATUS_FAILURE, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-
-        }
-
-        logger.info("Returing the save Recipe Response");
+        Recipe recipeRecord = mapper.convertDTOtoEntity(recipeDTO);
+        RecipeControllerResponse serviceResponse = recipeService.persistRecipeData(recipeRecord);
+        logger.info("Returning the save Recipe Response");
         return new ResponseEntity<>(serviceResponse, HttpStatus.CREATED);
     }
 
@@ -79,34 +77,10 @@ public class RecipeController {
     })
     @GetMapping(value = "/getAllRecipesByAuthor/{recipeAuthor}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRecipeByUser(@PathVariable("recipeAuthor") String recipeAuthor) {
-        List<Recipe> recipeList = new ArrayList<>();
-        try {
-            logger.info("In getRecipeByUser...");
-            recipeList = serviceOperations.findRecipeByOwner(recipeAuthor);
-        } catch (ServiceException serviceException) {
-            return new ResponseEntity<>(new RecipeControllerResponse(RecipeControllerResponse.StatusCode.RECIPE_RETRIEVAL_STATUS_FAILURE, serviceException.getErrorMessage()), HttpStatus.BAD_REQUEST);
-        }
-        logger.info("Returning all the available recipes for an author");
-        return new ResponseEntity<>(recipeList, HttpStatus.OK);
-    }
 
-
-    @ApiOperation(value = "Delete Recipe using mongoID")
-    @ApiResponses(value = {
-            @ApiResponse(code = 400, message = "BAD REQUEST"),
-            @ApiResponse(code = 200, message = "RECIPE DELETION SUCCESS")
-    })
-    @DeleteMapping(value = "/deleteRecipe/{recipeID}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteRecipebyID(@PathVariable("recipeID") String recipeID) {
-        RecipeControllerResponse serviceResponse = null;
-        try {
-            logger.info("Inside deleteRecipebyID");
-            serviceResponse = serviceOperations.deleteRecipeByID(recipeID);
-        } catch (ServiceException serviceException) {
-            return new ResponseEntity<>(new RecipeControllerResponse(RecipeControllerResponse.StatusCode.RECIPE_DELETION_STATUS_FAILURE, serviceException.getErrorMessage()), HttpStatus.BAD_REQUEST);
-        }
-        logger.info("Returning the DeleteRecipeResponse");
-        return new ResponseEntity<>(serviceResponse, HttpStatus.OK);
+        List<Recipe> recipeList = recipeService.findByRecipeAuthor(recipeAuthor);
+        List<RecipeDTO> recipeDTOList = recipeList.stream().map(x -> mapper.convertToDTO(x)).collect(Collectors.toList());
+        return new ResponseEntity<>(recipeDTOList, HttpStatus.OK);
     }
 
 
@@ -118,45 +92,43 @@ public class RecipeController {
     })
     @GetMapping(value = "/getAllRecipes", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllRecipes() {
-        logger.info("Calling findAllRecipes");
-        List<Recipe> recipeList = new ArrayList<>();
-        try {
-            logger.info("Inside getAllRecipes");
-            recipeList = serviceOperations.findAllRecipes();
-        } catch (ServiceException exception) {
-            return new ResponseEntity<>(new RecipeControllerResponse(RecipeControllerResponse.StatusCode.RECIPE_RETRIEVAL_STATUS_FAILURE, exception.getErrorMessage()), HttpStatus.NOT_FOUND);
 
-        }
-        logger.info("Returning the RecipeList");
-        return new ResponseEntity<>(recipeList, HttpStatus.OK);
+        List<Recipe> recipeList = recipeService.findAllRecipes();
+        List<RecipeDTO> recipeDTOList = recipeList.stream().map(x -> mapper.convertToDTO(x)).collect(Collectors.toList());
+        return new ResponseEntity<>(recipeDTOList, HttpStatus.OK);
     }
 
 
-    @ApiOperation(value = "Update a particular Recipe using mongoID")
+    @ApiOperation(value = "Delete Recipe using RecipeID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "BAD REQUEST"),
+            @ApiResponse(code = 200, message = "RECIPE DELETION SUCCESS")
+    })
+    @DeleteMapping(value = "/deleteRecipe/{recipeID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deleteRecipeByID(@PathVariable("recipeID") Integer recipeID) {
+
+        RecipeControllerResponse recipeControllerResponse = recipeService.deleteRecipeByID(recipeID);
+
+        return new ResponseEntity<>(recipeControllerResponse, HttpStatus.OK);
+    }
+
+
+    @ApiOperation(value = "Update a particular Recipe using RecipeID")
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "BAD REQUEST"),
             @ApiResponse(code = 200, message = "RECIPE UPDATE SUCCESS"),
             @ApiResponse(code = 500, message = "UNHANDLED EXCEPTION")
     })
     @PutMapping(value = "/updateRecipe/{recipeID}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateRecipeById(@PathVariable("recipeID") String recipeID, @Valid @RequestBody Recipe recipe) {
+    public ResponseEntity<?> updateRecipeById(@PathVariable("recipeID") Integer recipeID, @Valid @RequestBody RecipeDTO recipeDTO) {
 
-        Recipe updatedRecipe;
-        try {
-            logger.info("Inside updateRecipeById method ");
-            updatedRecipe = serviceOperations.updateRecipeCollection(recipeID, recipe);
-        } catch (ServiceException serviceException) {
-            return new ResponseEntity<>(new RecipeControllerResponse(RecipeControllerResponse.StatusCode.RECIPE_UPDATE_STATUS_FAILURE, serviceException.getErrorMessage()), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new RecipeControllerResponse(RecipeControllerResponse.StatusCode.RECIPE_UPDATE_STATUS_FAILURE, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-
-        }
-
-        logger.info("Returning the update response");
-        return new ResponseEntity<>(updatedRecipe, HttpStatus.OK);
+        Recipe recipeToBeUpdated = mapper.convertDTOtoEntity(recipeDTO);
+        RecipeControllerResponse recipeControllerResponse = recipeService.updateRecipeRecord(recipeID, recipeToBeUpdated);
+        return new ResponseEntity<>(recipeControllerResponse, HttpStatus.OK);
 
 
     }
+
 
     @ApiOperation(value = "Save multiple Recipes as a list to the Backend")
     @ApiResponses(value = {
@@ -165,19 +137,11 @@ public class RecipeController {
             @ApiResponse(code = 500, message = "UNHANDLED EXCEPTION")
     })
     @PostMapping(value = "/saveRecipeList", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RecipeControllerResponse> saveRecipe(@Valid @RequestBody List<Recipe> recipeList) {
-        RecipeControllerResponse serviceResponse;
-        try {
-            logger.info("Inside saveRecipeList method");
-            serviceResponse = serviceOperations.persistListOfRecipe(recipeList);
-        } catch (ServiceException serviceException) {
-            return new ResponseEntity<>(new RecipeControllerResponse(RecipeControllerResponse.StatusCode.RECIPE_SAVE_STATUS_FAILURE, serviceException.getErrorMessage()), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>(new RecipeControllerResponse(RecipeControllerResponse.StatusCode.RECIPE_SAVE_STATUS_FAILURE, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<RecipeControllerResponse> saveRecipe(@Valid @RequestBody List<RecipeDTO> inputRecipeList) {
 
-        }
-        logger.info("Returning the response after saving list of recipes");
-        return new ResponseEntity<>(serviceResponse, HttpStatus.CREATED);
+        List<Recipe> recipeList = inputRecipeList.stream().map(x -> mapper.convertDTOtoEntity(x)).collect(Collectors.toList());
+        RecipeControllerResponse recipeControllerResponse =  recipeService.persistListOfRecipe(recipeList);
+        return new ResponseEntity<>(recipeControllerResponse, HttpStatus.CREATED);
     }
 
 
@@ -210,4 +174,6 @@ public class RecipeController {
         logger.info("Returning the Authentication Token");
         return new AuthenticationResponse(token);
     }
+
+
 }
