@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/rest/v1/recipes/")
+@RequestMapping("/rest/recipe-management")
 @Api(value = "Recipe Management Controller", description = "The Controllers for various Recipe Management actions")
 public class RecipeController {
     Logger logger = LoggerFactory.getLogger(RecipeController.class);
@@ -59,7 +59,7 @@ public class RecipeController {
             @ApiResponse(code = 201, message = "RECIPE INSERTION SUCCESS"),
             @ApiResponse(code = 500, message = "UNHANDLED EXCEPTION")
     })
-    @PostMapping(value = "/saveRecipe", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/recipe", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 
     public ResponseEntity<?> saveRecipe(@Valid @RequestBody RecipeDTO recipeDTO) {
 
@@ -75,7 +75,7 @@ public class RecipeController {
             @ApiResponse(code = 404, message = "RESOURCE NOT FOUND"),
             @ApiResponse(code = 200, message = "RECIPE RETRIEVAL SUCCESS")
     })
-    @GetMapping(value = "/getAllRecipesByAuthor/{recipeAuthor}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/recipes/{recipeAuthor}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRecipeByUser(@PathVariable("recipeAuthor") String recipeAuthor) {
 
         List<Recipe> recipeList = recipeService.findByRecipeAuthor(recipeAuthor);
@@ -90,7 +90,7 @@ public class RecipeController {
             @ApiResponse(code = 200, message = "RECIPE RETRIEVAL SUCCESS"),
             @ApiResponse(code = 404, message = "RECIPES LIST EMPTY")
     })
-    @GetMapping(value = "/getAllRecipes", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/recipes", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllRecipes() {
 
         List<Recipe> recipeList = recipeService.findAllRecipes();
@@ -104,7 +104,7 @@ public class RecipeController {
             @ApiResponse(code = 400, message = "BAD REQUEST"),
             @ApiResponse(code = 200, message = "RECIPE DELETION SUCCESS")
     })
-    @DeleteMapping(value = "/deleteRecipe/{recipeID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/recipe/{recipeID}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteRecipeByID(@PathVariable("recipeID") Integer recipeID) {
 
         RecipeControllerResponse recipeControllerResponse = recipeService.deleteRecipeByID(recipeID);
@@ -119,7 +119,7 @@ public class RecipeController {
             @ApiResponse(code = 200, message = "RECIPE UPDATE SUCCESS"),
             @ApiResponse(code = 500, message = "UNHANDLED EXCEPTION")
     })
-    @PutMapping(value = "/updateRecipe/{recipeID}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/recipe/{recipeID}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateRecipeById(@PathVariable("recipeID") Integer recipeID, @Valid @RequestBody RecipeDTO recipeDTO) {
 
         Recipe recipeToBeUpdated = mapper.convertDTOtoEntity(recipeDTO);
@@ -136,7 +136,7 @@ public class RecipeController {
             @ApiResponse(code = 201, message = "RECIPE INSERTION SUCCESS"),
             @ApiResponse(code = 500, message = "UNHANDLED EXCEPTION")
     })
-    @PostMapping(value = "/saveRecipeList", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/recipes", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecipeControllerResponse> saveRecipe(@Valid @RequestBody List<RecipeDTO> inputRecipeList) {
 
         List<Recipe> recipeList = inputRecipeList.stream().map(x -> mapper.convertDTOtoEntity(x)).collect(Collectors.toList());

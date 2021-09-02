@@ -13,12 +13,12 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDUwNTY5OSwiaWF0IjoxNjMwNTA1Mzk5fQ.ypj5reNfZupnOTDH-lbe-AfM3QzP66hA4rt9c27G6tFYjvHdRRpLKs2FGIuxjXu2dPum8z9fOItE4KSLhVrOcQ",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDU1NDg5OSwiaWF0IjoxNjMwNTUzOTk5fQ.xRHHFba4sfLSwJAO9u9NVqJcZuQ4LaR-5vdQSHih_fR5_WoiSqA4n2JdMrGp0sufkghICrqAjRaRin4D1N-Bdg",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:9090/rest/v1/recipes/getAllRecipes/",
+					"raw": "http://localhost:9090/rest/recipe-management/recipes",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -26,10 +26,8 @@
 					"port": "9090",
 					"path": [
 						"rest",
-						"v1",
-						"recipes",
-						"getAllRecipes",
-						""
+						"recipe-management",
+						"recipes"
 					]
 				}
 			},
@@ -42,7 +40,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDUwNTYzNCwiaWF0IjoxNjMwNTA1MzM0fQ.KyBJ22crTrqUuIcqo0GdL9NS9RS4cWSxzZiMbjCg6GLnPJvf3thcgNPj4pkUxUa0F1XaPUZP38cPE5kPVFvQ_g",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDU1NDg5OSwiaWF0IjoxNjMwNTUzOTk5fQ.xRHHFba4sfLSwJAO9u9NVqJcZuQ4LaR-5vdQSHih_fR5_WoiSqA4n2JdMrGp0sufkghICrqAjRaRin4D1N-Bdg",
 						"type": "text"
 					}
 				],
@@ -56,7 +54,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/rest/v1/recipes/saveRecipe",
+					"raw": "http://localhost:9090/rest/recipe-management/recipe",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -64,9 +62,8 @@
 					"port": "9090",
 					"path": [
 						"rest",
-						"v1",
-						"recipes",
-						"saveRecipe"
+						"recipe-management",
+						"recipe"
 					]
 				}
 			},
@@ -79,12 +76,12 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDUwNTY5OSwiaWF0IjoxNjMwNTA1Mzk5fQ.ypj5reNfZupnOTDH-lbe-AfM3QzP66hA4rt9c27G6tFYjvHdRRpLKs2FGIuxjXu2dPum8z9fOItE4KSLhVrOcQ",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDU1NDg5OSwiaWF0IjoxNjMwNTUzOTk5fQ.xRHHFba4sfLSwJAO9u9NVqJcZuQ4LaR-5vdQSHih_fR5_WoiSqA4n2JdMrGp0sufkghICrqAjRaRin4D1N-Bdg",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:9090/rest/v1/recipes/getAllRecipesByAuthor/sai@test.com",
+					"raw": "http://localhost:9090/rest/recipe-management/recipes/akahrsh@gmail.com",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -92,10 +89,9 @@
 					"port": "9090",
 					"path": [
 						"rest",
-						"v1",
+						"recipe-management",
 						"recipes",
-						"getAllRecipesByAuthor",
-						"sai@test.com"
+						"akahrsh@gmail.com"
 					]
 				}
 			},
@@ -108,12 +104,12 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDUwNjQ0NCwiaWF0IjoxNjMwNTA2MTQ0fQ.9WYnR6_J0i-uBFwgikHFU2XSlTDBrpoSxsSTvSX2Q7brffpkUkuusRdq8FOC8AhhqyfSpA9AMozQgLeBLXYxlQ",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDU1NDg5OSwiaWF0IjoxNjMwNTUzOTk5fQ.xRHHFba4sfLSwJAO9u9NVqJcZuQ4LaR-5vdQSHih_fR5_WoiSqA4n2JdMrGp0sufkghICrqAjRaRin4D1N-Bdg",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:9090/rest/v1/recipes/deleteRecipe/3",
+					"raw": "http://localhost:9090/rest/recipe-management/recipe/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -121,9 +117,8 @@
 					"port": "9090",
 					"path": [
 						"rest",
-						"v1",
-						"recipes",
-						"deleteRecipe",
+						"recipe-management",
+						"recipe",
 						"3"
 					]
 				}
@@ -137,13 +132,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDUwNjYzNSwiaWF0IjoxNjMwNTA2MzM1fQ.HcTgZef209vKO77YpUXHl2CZo46o_uOlYFWw0Z85Gx1pJJ91EdiG0P42BId-AmydgktH2XmZbneyRSixPgEfig",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDU1NDg5OSwiaWF0IjoxNjMwNTUzOTk5fQ.xRHHFba4sfLSwJAO9u9NVqJcZuQ4LaR-5vdQSHih_fR5_WoiSqA4n2JdMrGp0sufkghICrqAjRaRin4D1N-Bdg",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"recipeName\": \"Crispy Roasted Potatoes\",\r\n    \"recipeAuthor\": \"akahrsh@test.com\",\r\n    \"veganRecipe\": true,\r\n    \"recipeSuitableServing\": 3 ,\r\n    \"recipeIngredients\": [\r\n\t\t\t\"Yukon Gold or baby potatoes - 1 1/2 pounds\",            \r\n\t\t\t\"neutral oil like grape seed oil or vegetable oil or avocado oil - 2 cups - 1 1/2 tsp\",\r\n            \"fine sea salt - 3/4 tsp\",\r\n\t\t\t\"fresh ground black pepper - 1/2 tsp\",\r\n            \"smoked paprika - 1/2 tsp\",\r\n            \"Fresh herbs like chopped chives mint for serving - As Required\"\r\n\t\t        \r\n    ],\r\n    \"recipeInstructions\": [\r\n            \"Heat the oven to 425 degrees Fahrenheit and line a large baking sheet with parchment paper or a silicone baking mat.\",\r\n            \"Chop the potatoes into 1-inch chunks and then add to a medium bowl along with the oil salt  pepper and smoked paprika. Toss well and then tumble the seasoned potatoes onto the prepared baking sheet. Spread the potatoes out into one layer.\",\r\n            \"Roast the potatoes until golden brown on the outside and tender on the inside 25 to 35 minutes. After 20 minutes check the potatoes and use a flat spatula to stir them for the most even browning.\",\r\n\t\t\t\"Scatter fresh herbs over the warm potatoes and serve.\"\r\n        ]\r\n    }",
+					"raw": "{\r\n    \"recipeName\": \"Crispy Roasted Potatoes\",\r\n    \"recipeAuthor\": \"akahrsh@test.com\",\r\n    \"veganRecipe\": true,\r\n    \"recipeSuitableServing\": 5 ,\r\n    \"recipeIngredients\": [\r\n\t\t\t\"Yukon Gold or baby potatoes - 1 1/2 pounds\",            \r\n\t\t\t\"neutral oil like grape seed oil or vegetable oil or avocado oil - 2 cups - 1 1/2 tsp\",\r\n            \"fine sea salt - 3/4 tsp\",\r\n\t\t\t\"fresh ground black pepper - 1/2 tsp\",\r\n            \"smoked paprika - 1/2 tsp\",\r\n            \"Fresh herbs like chopped chives mint for serving - As Required\"\r\n\t\t        \r\n    ],\r\n    \"recipeInstructions\": [\r\n            \"Heat the oven to 425 degrees Fahrenheit and line a large baking sheet with parchment paper or a silicone baking mat.\",\r\n            \"Chop the potatoes into 1-inch chunks and then add to a medium bowl along with the oil salt  pepper and smoked paprika. Toss well and then tumble the seasoned potatoes onto the prepared baking sheet. Spread the potatoes out into one layer.\",\r\n            \"Roast the potatoes until golden brown on the outside and tender on the inside 25 to 35 minutes. After 20 minutes check the potatoes and use a flat spatula to stir them for the most even browning.\",\r\n\t\t\t\"Scatter fresh herbs over the warm potatoes and serve.\"\r\n        ]\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -151,7 +146,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/rest/v1/recipes/updateRecipe/1",
+					"raw": "http://localhost:9090/rest/recipe-management/recipe/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -159,9 +154,8 @@
 					"port": "9090",
 					"path": [
 						"rest",
-						"v1",
-						"recipes",
-						"updateRecipe",
+						"recipe-management",
+						"recipe",
 						"1"
 					]
 				}
@@ -175,7 +169,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDUwNjQ0NCwiaWF0IjoxNjMwNTA2MTQ0fQ.9WYnR6_J0i-uBFwgikHFU2XSlTDBrpoSxsSTvSX2Q7brffpkUkuusRdq8FOC8AhhqyfSpA9AMozQgLeBLXYxlQ",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzMDU1NDg5OSwiaWF0IjoxNjMwNTUzOTk5fQ.xRHHFba4sfLSwJAO9u9NVqJcZuQ4LaR-5vdQSHih_fR5_WoiSqA4n2JdMrGp0sufkghICrqAjRaRin4D1N-Bdg",
 						"type": "text"
 					}
 				],
@@ -189,7 +183,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/rest/v1/recipes/saveRecipeList",
+					"raw": "http://localhost:9090/rest/recipe-management/recipes",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -197,9 +191,8 @@
 					"port": "9090",
 					"path": [
 						"rest",
-						"v1",
-						"recipes",
-						"saveRecipeList"
+						"recipe-management",
+						"recipes"
 					]
 				}
 			},
@@ -220,7 +213,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/rest/v1/recipes/authenticate",
+					"raw": "http://localhost:9090/rest/recipe-management/authenticate",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -228,8 +221,7 @@
 					"port": "9090",
 					"path": [
 						"rest",
-						"v1",
-						"recipes",
+						"recipe-management",
 						"authenticate"
 					]
 				}

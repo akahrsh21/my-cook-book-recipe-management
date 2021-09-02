@@ -69,83 +69,79 @@ public class RecipeServiceTest {
     }
 
     @Test
-    @DisplayName("Test the Get All Recipes Service Method, Expected OK")
+    @DisplayName("Given The User needs to retrieve the recipe Records, When The Entities are retrieved, Then validate the size of the returned list")
     void testGetAllRecipesService() {
-        //Given The User needs to retrieve the recipe Records
+
         Mockito.when(recipeRepository.findAll()).thenReturn(mockListRecipe);
-        //When The Entities are retrieved
+
         List<Recipe> recipes = recipeRepository.findAll();
-        //Then validate the size of the returned list
+
         Assertions.assertEquals(2, recipes.size());
 
     }
 
     @Test
-    @DisplayName("Test the Get Recipe by Author Service Method, Expected OK")
+    @DisplayName("Given The User needs to retrieve the recipe Records by author, When The Entity is retrieved, Then validate the size of the returned list")
     void testGetRecipebyAuthor() {
-        //Given The User needs to retrieve the recipe Records by author
 
         Mockito.when(recipeRepository.findByRecipeAuthor("akahrsh@test.com")).thenReturn(mockListRecipe);
-        //When The Entity is retrieved
+
         List<Recipe> recipes = recipeService.findByRecipeAuthor("akahrsh@test.com");
-        //Then validate the size of the returned list
+
         Assertions.assertEquals(2, recipes.size());
 
     }
 
     @Test
-    @DisplayName("Test the Save Recipe Service Method, Expected OK")
+    @DisplayName("Given The User needs to save a recipe, When The Entity is saved, " +
+            "Then validate the returned Response: should be RECIPE_SAVE_STATUS_SUCCESS ")
     void testSaveRecipe() {
-        //Given The User needs to save a recipe
+
         Mockito.when(recipeRepository.save(mockRecipe1))
                 .thenReturn(mockRecipe1);
-        //When The Entity is saved
+
         RecipeControllerResponse response = recipeService.persistRecipeData(mockRecipe1);
-        //Then validate the returned Response: should be RECIPE_SAVE_STATUS_SUCCESS
+
         Assertions.assertEquals("RECIPE_SAVE_STATUS_SUCCESS", "RECIPE_SAVE_STATUS_SUCCESS");
 
     }
 
     @Test
-    @DisplayName("Test the Save Recipe as List Service Method, Expected OK")
+    @DisplayName("Given The User needs to save recipe Records a list, When The Entity is saved" +
+            "Then validate the returned Response: should be RECIPE_SAVE_STATUS_SUCCESS")
     void testSaveRecipeAsList() {
-        //Given The User needs to save recipe Records a list
 
         Mockito.when(recipeRepository.saveAll(mockListRecipe))
                 .thenReturn(mockListRecipe);
-        //When The Entity is saved
+
         RecipeControllerResponse response = recipeService.persistListOfRecipe(mockListRecipe);
-        //Then validate the returned Response: should be RECIPE_SAVE_STATUS_SUCCESS
+
         Assertions.assertEquals("RECIPE_SAVE_STATUS_SUCCESS", "RECIPE_SAVE_STATUS_SUCCESS");
 
     }
 
     @Test
-    @DisplayName("Test the Delete Recipe Record Service Method, Expected OK")
+    @DisplayName("Given The User needs to delete recipe Records,When The Recipe Record is deleted,Then Verify the number of invocations")
     void testDeleteRecipeRecord() {
-        //Given The User needs to delete recipe Records
-
-
         Optional<Recipe> optionalRecipe = Optional.of(mockRecipe1);
         Mockito.when(recipeRepository.findById(mockRecipe1.getRecipeID())).thenReturn(optionalRecipe);
-        //When The Recipe Record is deleted
+
         recipeService.deleteRecipeByID(mockRecipe1.getRecipeID());
-        //Then Verify the number of invocations
+
         Mockito.verify(recipeRepository, Mockito.times(1)).deleteById(mockRecipe1.getRecipeID());
 
 
     }
 
     @Test
-    @DisplayName("Test the Update Recipe Record Service Method, Expected OK")
+    @DisplayName("Given The User needs to update a recipe Record, When The Recipe Record is updated, Then Verify the number of invocations ")
     void testUpdateRecipeRecord() {
-        //Given The User needs to update a recipe Record
 
         Optional<Recipe> optionalRecipe = Optional.of(mockRecipe1);
         Mockito.when(recipeRepository.findById(mockRecipe1.getRecipeID())).thenReturn(optionalRecipe);
-        //When The Recipe Record is updated
+
         recipeService.updateRecipeRecord(mockRecipe1.getRecipeID(), mockRecipe1);
-        //Then Verify the number of invocations
+
         Mockito.verify(recipeRepository, Mockito.times(1)).save(mockRecipe1);
 
 

@@ -96,7 +96,7 @@ class RecipeControllerTest {
 
 
     List<Recipe> mockListRecipe = new ArrayList<>(Arrays.asList(mockRecipe1, mockRecipe2));
-    private String URI = "/rest/v1/recipes/";
+    private String URI = "/rest/recipe-management/";
 
     private String testRecipeOwner = "testEmail@test.com";
 
@@ -109,11 +109,8 @@ class RecipeControllerTest {
 
 
     @Test
-    @DisplayName("Test the controller for Validation failures on updating the Recipe Record, Expected OK")
+    @DisplayName("Given The User needs to update the recipe Record, When The request fails the Input validation, Then The response should return the code '400' ")
     void testValidationFailuresUpdateRecipe() throws Exception {
-
-        //Given The User needs to update the recipe Record
-        //When The request fails the Input validation
 
         Recipe mockRecipe = Recipe.builder()
                 .recipeAuthor("TEST RECIPE")
@@ -123,171 +120,156 @@ class RecipeControllerTest {
                 .build();
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .put(URI + "updateRecipe/" + 1)
+                .put(URI + "recipe/" + 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(mockRecipe));
 
-        //Then The response should return the code '400'
         mockMvc.perform(mockRequest).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
 
     }
 
     @Test
-    @DisplayName("Test the controller for Validation failures on saving the Recipe Record, Expected OK")
+    @DisplayName("Given The User needs to save the recipe Record, When The request fails the Input validation, Then The response should return the code '400' ")
     void testValidationFailuresSaveRecipe() throws Exception {
-        //Given The User needs to save the recipe Record
-        //When The request fails the Input validation
+
         Recipe mockRecipe = Recipe.builder()
                 .recipeAuthor("TEST RECIPE")
                 .veganRecipe(true)
                 .recipeSuitableServing(2)
                 .build();
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post(URI + "saveRecipe")
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post(URI + "recipe")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(mockRecipe));
 
-        //Then The response should return the code '400'
+
         mockMvc.perform(mockRequest).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
 
     }
 
     @Test
-    @DisplayName("Test the controller for Successfully saving the recipe record, Expected OK")
+    @DisplayName("Given The User needs to save the recipe Record, When The request is valid, Then The response should return the response code '201'")
     void testSuccessResponseSaveRecipe() throws Exception {
-
-        //Given The User needs to save the recipe Record
-        //When The request is valid
 
         RecipeDTO dto = new RecipeDTO(1, "TEST RECIPE", "akahrsh@gmal.com", true, 2, "01‐09‐2021 14:24",
                 Arrays.asList("ing 1", "ing2", "ing3"), Arrays.asList("ins1", "ins2", "ins3"));
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(URI + "saveRecipe")
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(URI + "recipe")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto));
 
-        //Then The response should return the response code '201'
+
         mockMvc.perform(request)
                 .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
     @Test
-    @DisplayName("Test the controller for returning the validation failures on saving the recipe, Expected OK")
+    @DisplayName("Given The User needs to save the recipe Record, When The request is not valid , Then The response should return the code '400'")
     void testValidationFailureResponseSaveRecipe() throws Exception {
 
-        //Given The User needs to save the recipe Record
-        //When The request is not valid
+
         RecipeDTO dto = new RecipeDTO(1, "R", "akahrshgmal.com", true, 2, "01‐09‐2021 14:24",
                 Arrays.asList("ing 1", "ing2", "ing3"), Arrays.asList("ins1", "ins2", "ins3"));
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(URI + "saveRecipe")
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(URI + "recipe")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto));
-        //Then The response should return the code '400'
+
         mockMvc.perform(request)
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
-    @DisplayName("Test the controller for Successfully retrieving all the recipe Records, Expected OK")
+    @DisplayName("Given The User needs to retrieve all the Recipe Records, When The request is valid, Then The response should return the code '200'")
     void testSuccessResponseGetAllRecipes() throws Exception {
 
-        //Given The User needs to retrieve all the Recipe Records
-        //When The request is valid
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(URI + "getAllRecipes")
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(URI + "recipes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
 
-        //Then The response should return the code '200'
+
         mockMvc.perform(request)
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    @DisplayName("Test the controller for Successfully retrieving the recipe record by Author, Expected OK")
+    @DisplayName("Given The User needs to retrieve all the Recipe Records by Author Name, When The request is valid, Then The response should return the code '200'")
     void testSuccessResponseGetRecipeByAuthor() throws Exception {
 
-        //Given The User needs to retrieve all the Recipe Records by Author Name
-        //When The request is valid
+
         Mockito.when(recipeService.findByRecipeAuthor(testRecipeOwner)).thenReturn(mockListRecipe);
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(URI + "getAllRecipesByAuthor/" + testRecipeOwner)
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(URI + "recipes/" + testRecipeOwner)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
-        //Then The response should return the code '200'
+
         mockMvc.perform(request)
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)));
     }
 
     @Test
-    @DisplayName("Test the controller for returning the expected response when no data found for the search criteria, Expected OK")
+    @DisplayName("Given The User needs to retrieve all the Recipe Records by Author Name" +
+            "When The request is valid And there are no records for the user, Then the Response should return the code 404")
     void testNoDataFoundResponseGetRecipeByAuthor() throws Exception {
-        //Given The User needs to retrieve all the Recipe Records by Author Name
-        //When The request is valid
-        //And there are no records for the user
+
         Mockito.when(recipeService.findByRecipeAuthor(testRecipeOwner)).thenReturn(mockListRecipe);
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(URI + "getAllRecipesByAuthor/" + "INVALIDEMAILADDRESS")
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(URI + "recipes/" + "INVALIDEMAILADDRESS")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
-        //Then the Response should return the code 404
+
         mockMvc.perform(request)
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(0)));
     }
 
     @Test
-    @DisplayName("Test the controller for Successfully deleting a recipe record, Expected OK")
+    @DisplayName("Given The User needs to Delete a Recipe Record, When The request is valid, Then the Response should return the code 200")
     void testSuccessResponseDeleteRecipe() throws Exception {
-        //Given The User needs to Delete a Recipe Record
-        //When The request is valid
 
         Mockito.when(recipeService.deleteRecipeByID(1))
                 .thenReturn(new RecipeControllerResponse(RecipeControllerResponse.StatusCode.RECIPE_DELETION_STATUS_SUCCESS, "Recipe Record Deleted Successfully"));
 
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.delete(URI + "deleteRecipe/" + 1)
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.delete(URI + "recipe/" + 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
-        //Then the Response should return the code 200
+
         mockMvc.perform(request)
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("statusCode", Matchers.is("RECIPE_DELETION_STATUS_SUCCESS")));
 
     }
 
     @Test
-    @DisplayName("Test the controller for Successfully updating the recipe record, Expected OK")
+    @DisplayName("Given The User needs to update a Recipe Record, When The request is valid, Then the Response should return the code 200 ")
     void testSuccessResponseUpdateRecipe() throws Exception {
 
-        //Given The User needs to update a Recipe Record
-        //When The request is valid
         RecipeDTO dto = new RecipeDTO(1, "TEST RECIPE", "akahrsh@gmal.com", true, 2, "01‐09‐2021 14:24",
                 Arrays.asList("ing 1", "ing2", "ing3"), Arrays.asList("ins1", "ins2", "ins3"));
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.put(URI + "updateRecipe/" + 1)
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.put(URI + "recipe/" + 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto));
-        //Then the Response should return the code 200
+
         mockMvc.perform(request)
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
 
     @Test
-    @DisplayName("Test the controller for Successfully saving the list of recipe records, Expected OK")
+    @DisplayName("Given The User needs to Save Recipe records as a list, When The request is valid, Then the Response should return the code 201 ")
     void testSaveRecipeListSuccess() throws Exception {
 
-        //Given The User needs to Save Recipe records as a list
-        //When The request is valid
+
         RecipeDTO dto1 = new RecipeDTO(1, "TEST RECIPE", "akahrsh@gmal.com", true, 2, "01‐09‐2021 14:24",
                 Arrays.asList("ing 1", "ing2", "ing3"), Arrays.asList("ins1", "ins2", "ins3"));
 
@@ -298,13 +280,12 @@ class RecipeControllerTest {
         List<Recipe> recipeList = new ArrayList<>(Arrays.asList(mapper.convertDTOtoEntity(dto1), mapper.convertDTOtoEntity(dto2)));
 
         Mockito.when(recipeService.persistListOfRecipe(recipeList)).thenReturn(new RecipeControllerResponse(RecipeControllerResponse.StatusCode.RECIPE_SAVE_STATUS_SUCCESS, "Recipe Record Saved Successfully"));
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(URI + "saveRecipeList")
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(URI + "recipes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(recipeList));
-        //Then the Response should return the code 201
+
         mockMvc.perform(request)
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
     }

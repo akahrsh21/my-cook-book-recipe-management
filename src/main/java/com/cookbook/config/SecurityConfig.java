@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/rest/v1/recipes/authenticate")
+                .antMatchers("/rest/recipe-management/authenticate")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
