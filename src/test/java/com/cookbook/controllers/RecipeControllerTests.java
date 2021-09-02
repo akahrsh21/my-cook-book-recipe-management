@@ -1,7 +1,6 @@
 package com.cookbook.controllers;
 
 import com.cookbook.DTO.RecipeDTO;
-import com.cookbook.model.Recipe;
 import com.cookbook.repository.RecipeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
@@ -80,7 +79,6 @@ public class RecipeControllerTests {
         mockMvc.perform(MockMvcRequestBuilders.post("/rest/recipe-management/recipe").header("Authorization", "Bearer " + authJWTToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto1)))
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("statusCode", Matchers.is("RECIPE_SAVE_STATUS_SUCCESS")));
 
