@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -20,7 +21,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.*;
@@ -45,15 +45,21 @@ public class RecipeControllerTests {
 
     String URI = "/rest/recipe-management/";
 
-    @Before
+    @Value("${auth.token.expiry.milliseconds}")
+    private long TOKEN_VALIDITY;
 
+    @Value("${auth.mySecretKey}")
+    private String mySecretKey;
+
+
+    @Before
     public void tokenGenerator() {
 
 
         Map<String, Object> claims = new HashMap<>();
         authJWTToken = Jwts.builder().setClaims(claims).setSubject("admin").setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 900000))
-                .signWith(SignatureAlgorithm.HS512, "mysecretkeyforcookbookrecipemanagementapplication").compact();
+                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY))
+                .signWith(SignatureAlgorithm.HS512, mySecretKey).compact();
 
 
     }
