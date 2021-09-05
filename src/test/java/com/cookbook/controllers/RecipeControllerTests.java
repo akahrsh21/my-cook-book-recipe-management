@@ -1,6 +1,7 @@
 package com.cookbook.controllers;
 
 import com.cookbook.DTO.RecipeDTO;
+import com.cookbook.model.AuthenticationRequest;
 import com.cookbook.repository.RecipeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
@@ -21,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.*;
@@ -241,6 +243,35 @@ public class RecipeControllerTests {
                 .content(objectMapper.writeValueAsString(invalidDto)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("message", Matchers.is("Input validation failed")));
+
+    }
+
+    @Test
+    @DisplayName("Given The User needs to authenticate, When The credentials are correct, Then The response should return the code '200' ")
+    public void k_givenValidCredentials_whenAuthenticate_thenStatus200()
+            throws Exception {
+
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest("admin", "password");
+        mockMvc.perform(MockMvcRequestBuilders.post(URI + "authenticate")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(authenticationRequest)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("authToken").exists());
+
+
+    }
+
+    @Test
+    @DisplayName("Given The User needs to authenticate, When The credentials are invalid, Then The response should return the code '403' ")
+    public void l_givenInValidCredentials_whenAuthenticate_thenStatus403()
+            throws Exception {
+
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest("admin", "incorrectpassword");
+        mockMvc.perform(MockMvcRequestBuilders.post(URI + "authenticate")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(authenticationRequest)))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+
 
     }
 
