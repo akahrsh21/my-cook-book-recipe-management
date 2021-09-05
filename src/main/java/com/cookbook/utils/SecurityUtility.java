@@ -14,9 +14,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Component
-public class SecurityUtility implements Serializable {
-
-    private static final long serialVersionUID = 234234523523L;
+public class SecurityUtility {
 
     @Value("${auth.token.expiry.milliseconds}")
     private long TOKEN_VALIDITY;
