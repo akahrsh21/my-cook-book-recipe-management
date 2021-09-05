@@ -31,6 +31,7 @@
         <appender-ref ref="ROLLING"/>
     </logger>
 
+
     <logger name="com.cookbook" level="trace" additivity="false">
         <appender-ref ref="ROLLING"/>
     </logger>

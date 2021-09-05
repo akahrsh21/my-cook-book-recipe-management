@@ -57,7 +57,8 @@ public class RecipeController {
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "BAD REQUEST"),
             @ApiResponse(code = 201, message = "RECIPE INSERTION SUCCESS"),
-            @ApiResponse(code = 500, message = "UNHANDLED EXCEPTION")
+            @ApiResponse(code = 500, message = "UNHANDLED EXCEPTION"),
+            @ApiResponse(code = 403, message = "AUTHENTICATION FAILED")
     })
     @PostMapping(value = "/recipe", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 
@@ -73,7 +74,8 @@ public class RecipeController {
     @ApiOperation(value = "Retrieve the Recipe by its Author")
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "RESOURCE NOT FOUND"),
-            @ApiResponse(code = 200, message = "RECIPE RETRIEVAL SUCCESS")
+            @ApiResponse(code = 200, message = "RECIPE RETRIEVAL SUCCESS"),
+            @ApiResponse(code = 403, message = "AUTHENTICATION FAILED")
     })
     @GetMapping(value = "/recipes/{recipeAuthor}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRecipeByUser(@PathVariable("recipeAuthor") String recipeAuthor) {
@@ -88,7 +90,8 @@ public class RecipeController {
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "BAD REQUEST"),
             @ApiResponse(code = 200, message = "RECIPE RETRIEVAL SUCCESS"),
-            @ApiResponse(code = 404, message = "RECIPES LIST EMPTY")
+            @ApiResponse(code = 404, message = "RECIPES LIST EMPTY"),
+            @ApiResponse(code = 403, message = "AUTHENTICATION FAILED")
     })
     @GetMapping(value = "/recipes", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllRecipes() {
@@ -102,7 +105,8 @@ public class RecipeController {
     @ApiOperation(value = "Delete Recipe using RecipeID")
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "BAD REQUEST"),
-            @ApiResponse(code = 200, message = "RECIPE DELETION SUCCESS")
+            @ApiResponse(code = 200, message = "RECIPE DELETION SUCCESS"),
+            @ApiResponse(code = 403, message = "AUTHENTICATION FAILED")
     })
     @DeleteMapping(value = "/recipe/{recipeID}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteRecipeByID(@PathVariable("recipeID") Integer recipeID) {
@@ -117,7 +121,8 @@ public class RecipeController {
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "BAD REQUEST"),
             @ApiResponse(code = 200, message = "RECIPE UPDATE SUCCESS"),
-            @ApiResponse(code = 500, message = "UNHANDLED EXCEPTION")
+            @ApiResponse(code = 500, message = "UNHANDLED EXCEPTION"),
+            @ApiResponse(code = 403, message = "AUTHENTICATION FAILED")
     })
     @PutMapping(value = "/recipe/{recipeID}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateRecipeById(@PathVariable("recipeID") Integer recipeID, @Valid @RequestBody RecipeDTO recipeDTO) {
@@ -134,7 +139,8 @@ public class RecipeController {
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "BAD REQUEST"),
             @ApiResponse(code = 201, message = "RECIPE INSERTION SUCCESS"),
-            @ApiResponse(code = 500, message = "UNHANDLED EXCEPTION")
+            @ApiResponse(code = 500, message = "UNHANDLED EXCEPTION"),
+            @ApiResponse(code = 403, message = "AUTHENTICATION FAILED")
     })
     @PostMapping(value = "/recipes", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecipeControllerResponse> saveRecipe(@Valid @RequestBody List<RecipeDTO> inputRecipeList) {
@@ -147,9 +153,8 @@ public class RecipeController {
 
     @ApiOperation(value = "Authenticate the User and get the authentication token")
     @ApiResponses(value = {
-            @ApiResponse(code = 400, message = "BAD REQUEST"),
-            @ApiResponse(code = 200, message = "RECIPE INSERTION SUCCESS"),
-            @ApiResponse(code = 500, message = "UNHANDLED EXCEPTION")
+            @ApiResponse(code = 403, message = "AUTHENTICATION FAILED"),
+            @ApiResponse(code = 200, message = "TOKEN GENERATED")
     })
     @PostMapping("/authenticate")
     public AuthenticationResponse authenticate(@RequestBody AuthenticationRequest authRequest) throws Exception {
@@ -163,6 +168,7 @@ public class RecipeController {
                     )
             );
         } catch (BadCredentialsException e) {
+            logger.info("Auth Failed for the user: " + authRequest.getUsername());
             throw new Exception("Login Failed: Credentials Invalid", e);
         }
 
